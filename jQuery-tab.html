@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery-Tab效果</title>
+    <style>
+
+    ul,li {
+        margin: 0;
+        padding: 0;
+    }
+
+    .tab {
+        width: 600px;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px 10px;
+    }
+
+    .tab ul {
+        list-style: none;
+    }
+
+    .clearfix::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+    
+    .tab-header {
+        border-bottom: 1px solid #ccc;
+    }
+
+    .tab-header>li {
+        float: left;
+        padding: 5px 20px;
+        border-top: 1px solid #fff;
+        border-left: 1px solid #fff;
+        border-right: 1px solid #fff;
+        cursor: pointer;
+        color: #337ab7;
+    } 
+
+    .tab-header .active {
+        color: #000;
+        border: 1px solid #ccc;
+        border-radius: 5px 5px 0 0;
+        border-bottom: 1px solid #fff;
+        margin-bottom: -1px;
+    }
+
+    .tab-content {
+        padding: 20px 0 20px 0;
+    }
+
+    .tab-content>li {
+        display: none;
+    }
+    
+    .tab-content .active {
+        display: block;
+    }
+    </style>
+</head>
+<body>
+    <div class="tab">
+        <ul class="tab-header clearfix">
+            <li class="active">选项1</li>  <!--active是默认展示的-->
+            <li>选项2</li>
+            <li>选项3</li>
+        </ul>
+        <ul class="tab-content">
+            <li class="active">    <!--active是默认展示的-->
+                <span>内容1</span>
+            </li>
+            <li>
+                <span>内容2</span>
+            </li>
+            <li>
+                <span>内容3</span>
+            </li>
+        </ul>    
+    </div>
+    <div class="tab">
+        <ul class="tab-header clearfix">
+            <li class="active">事件</li>  <!--active是默认展示的-->
+            <li>事件流</li>
+            <li>事件处理程序</li>
+        </ul>
+        <ul class="tab-content">
+            <li class="active">    <!--active是默认展示的-->
+                <p>
+                    JavaScript和HTML的交互是通过事件实现的。
+                    JavaScript采用异步事件驱动编程模型，当文档、浏览器、元素或与之相关对象发生特定事情时，
+                    浏览器会产生事件。如果JavaScript关注特定类型事件，那么它可以注册当这类事件发生时要调用的句柄。
+                </p>
+            </li>
+            <li>
+                <p>
+                    事件流描述的是从页面中接收事件的顺序，比如有两个嵌套的div，点击了内层的div，这时候是内层的div先触发click事件还是外层先触发？目前主要有三种模型：
+                </p>
+                <p>    
+                    1.IE的事件冒泡：事件开始时由最具体的元素接收，然后逐级向上传播到较为不具体的元素。
+                </p>
+                <p>
+                    2.Netscape的事件捕获：不太具体的节点更早接收事件，而最具体的元素最后接收事件，和事件冒泡相反。
+                </p>
+                <p>    
+                    3.DOM事件流：DOM2级事件规定事件流包括三个阶段，事件捕获阶段，处于目标阶段，事件冒泡阶段，首先发生的是事件捕获，
+                    为截取事件提供机会，然后是实际目标接收事件，最后是冒泡阶段。
+                </p>
+            </li>
+            <li>
+                <p>
+                    我们也称之为事件侦听器（listener），事件就是用户或浏览器自身执行的某种动作。
+                    比如click、load、mouseover等，都是事件类型（俗称事件名称），而响应某个事件的方法就叫做事件处理程序或者事件监听器。
+                </p>
+                <p>
+                    也就是我们需要提前定义好某些事件发生了该怎么处理，这个过程叫做绑定事件处理程序，了解了这些，我们看看如何给元素添加事件处理程序。
+                </p>
+            </li>
+        </ul>    
+    </div>
+    <script src="jquery-3.2.1.min.js"></script>
+    <script>
+        
+        $('.tab-header>li').on('click',function(){
+            var $this = $(this),
+                index = $this.index(), //获取点击元素的下标
+                $findContentLi = $this.parents('.tab').find('.tab-content>li');
+            
+            $this.siblings().removeClass('active');   //删除所有邻居的class="active"
+            $this.addClass('active'); //给点击元素添加class="active"
+
+            $findContentLi.removeClass('active');  //找到点击元素的父母含有'.tab',再找'.tab-content>li'，然后删除class
+            $findContentLi.eq(index).addClass('active');   ////找到点击元素的父母含有'.tab',再找'.tab-content>li'，然后添加class
+        })
+
+
+
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tab效果</title>
+    <style>
+
+    ul,li {
+        margin: 0;
+        padding: 0;
+    }
+
+    .tab {
+        width: 600px;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px 10px;
+    }
+
+    .tab ul {
+        list-style: none;
+    }
+
+    .clearfix::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+    
+    .tab-header {
+        border-bottom: 1px solid #ccc;
+    }
+
+    .tab-header>li {
+        float: left;
+        padding: 5px 20px;
+        border-top: 1px solid #fff;
+        border-left: 1px solid #fff;
+        border-right: 1px solid #fff;
+        cursor: pointer;
+        color: #337ab7;
+    } 
+
+    .tab-header .active {
+        color: #000;
+        border: 1px solid #ccc;
+        border-radius: 5px 5px 0 0;
+        border-bottom: 1px solid #fff;
+        margin-bottom: -1px;
+    }
+
+    .tab-content {
+        padding: 20px 0 20px 0;
+    }
+
+    .tab-content>li {
+        display: none;
+    }
+    
+    .tab-content .active {
+        display: block;
+    }
+    </style>
+</head>
+<body>
+    <div class="tab">
+        <ul class="tab-header clearfix">
+            <li class="active">事件</li>  <!--active是默认展示的-->
+            <li>事件流</li>
+            <li>事件处理程序</li>
+        </ul>
+        <ul class="tab-content">
+            <li class="active">    <!--active是默认展示的-->
+                <p>
+                    JavaScript和HTML的交互是通过事件实现的。
+                    JavaScript采用异步事件驱动编程模型，当文档、浏览器、元素或与之相关对象发生特定事情时，
+                    浏览器会产生事件。如果JavaScript关注特定类型事件，那么它可以注册当这类事件发生时要调用的句柄。
+                </p>
+            </li>
+            <li>
+                <p>
+                    事件流描述的是从页面中接收事件的顺序，比如有两个嵌套的div，点击了内层的div，这时候是内层的div先触发click事件还是外层先触发？目前主要有三种模型：
+                </p>
+                <p>    
+                    1.IE的事件冒泡：事件开始时由最具体的元素接收，然后逐级向上传播到较为不具体的元素。
+                </p>
+                <p>
+                    2.Netscape的事件捕获：不太具体的节点更早接收事件，而最具体的元素最后接收事件，和事件冒泡相反。
+                </p>
+                <p>    
+                    3.DOM事件流：DOM2级事件规定事件流包括三个阶段，事件捕获阶段，处于目标阶段，事件冒泡阶段，首先发生的是事件捕获，
+                    为截取事件提供机会，然后是实际目标接收事件，最后是冒泡阶段。
+                </p>
+            </li>
+            <li>
+                <p>
+                    我们也称之为事件侦听器（listener），事件就是用户或浏览器自身执行的某种动作。
+                    比如click、load、mouseover等，都是事件类型（俗称事件名称），而响应某个事件的方法就叫做事件处理程序或者事件监听器。
+                </p>
+                <p>
+                    也就是我们需要提前定义好某些事件发生了该怎么处理，这个过程叫做绑定事件处理程序，了解了这些，我们看看如何给元素添加事件处理程序。
+                </p>
+            </li>
+        </ul>    
+    </div>
+
+    <script>
+        var tabHeader = document.querySelector('.tab-header');
+        var tabHeaderLis = document.querySelectorAll('.tab-header>li');
+        var tabContentLis = document.querySelectorAll('.tab-content>li');
+
+        tabHeader.addEventListener('click',function(e){
+            var clickNode = e.target;                        //点击的节点
+            if(clickNode.tagName.toLowerCase() === 'li'){   
+                for(i=0; i<tabHeaderLis.length; i++){       //遍历tabHeaderLis
+                    tabHeaderLis[i].classList.remove('active'); //删除tabHeaderLis下的所有active类  active类指的是边框效果 border: 1px solid #ccc;
+                }
+                clickNode.classList.add('active');  //给点击的节点添加active类   active类指的是边框效果 border: 1px solid #ccc;
+
+                var idx = [].indexOf.call(tabHeaderLis,clickNode);  //ES5的方法遍历tabHeaderLis 赋值给下标
+
+                for(i=0; i<tabContentLis.length; i++){
+                    tabContentLis[i].classList.remove('active');    //给所有的内容先删除active类  active类指的是内容是否展现 display: block;
+                }
+                tabContentLis[idx].classList.add('active'); //得到赋值的下标的内容添加active类  active类指的是内容是否展现 display: block;
+            }
+        })
+    </script>
+</body>
+</html>
+
